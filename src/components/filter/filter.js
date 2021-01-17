@@ -1,12 +1,8 @@
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { filterChange } from '../../redux/actions';
 
-import PropTypes from 'prop-types';
-
-function Filter({ filterInput }) {
-  const handleInput = e => {
-    filterInput(e.currentTarget.value);
-  };
+function Filter() {
+  const dispatch = useDispatch();
 
   return (
     <label className="label">
@@ -15,18 +11,10 @@ function Filter({ filterInput }) {
         className="input"
         name="filter"
         type="text"
-        onChange={handleInput}
+        onChange={e => dispatch(filterChange(e.currentTarget.value))}
       ></input>
     </label>
   );
 }
 
-Filter.propTypes = {
-  filterInput: PropTypes.func,
-};
-
-const mapDispatchToProps = dispatch => ({
-  filterInput: filter => dispatch(filterChange(filter)),
-});
-
-export default connect(null, mapDispatchToProps)(Filter);
+export default Filter;

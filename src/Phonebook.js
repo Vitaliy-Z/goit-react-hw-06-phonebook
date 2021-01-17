@@ -1,17 +1,20 @@
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { formSubmit } from './redux/actions';
 import ContactForm from './components/contactForm/contactForm';
 import Filter from './components/filter/filter';
 import ContactList from './components/contactList/contactList';
 import './Phonebook.css';
 
-function Phonebook({ contacts, formSubmit }) {
+function Phonebook() {
+  const contacts = useSelector(state => state.contactsItem);
+  const dispatch = useDispatch();
+
   const handleFormSubmit = data =>
     contacts.find(
       contact => contact.name.toLowerCase() === data.name.toLowerCase(),
     )
       ? alert(data.name + ' is already in contacts')
-      : formSubmit(data);
+      : dispatch(formSubmit(data));
 
   return (
     <div className="container">
@@ -24,13 +27,4 @@ function Phonebook({ contacts, formSubmit }) {
   );
 }
 
-const mapStateToProps = state => ({
-  contacts: state.contactsItem,
-  filter: state.filter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  formSubmit: contact => dispatch(formSubmit(contact)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Phonebook);
+export default Phonebook;
